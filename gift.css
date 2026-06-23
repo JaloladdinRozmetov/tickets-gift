@@ -1,0 +1,128 @@
+:root {
+  --ink: #fffaf3;
+  --muted: rgba(255, 250, 243, 0.76);
+  --line: rgba(255, 250, 243, 0.24);
+  --gold: #f4c46e;
+  --rose: #f4a3a1;
+  --mint: #9be0c8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: #05070c;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(7, 9, 15, 0.28), rgba(7, 9, 15, 0.88)),
+    url("assets/romantic-bg.png") center / cover fixed no-repeat;
+  overflow-x: hidden;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  background: rgba(4, 7, 12, 0.58);
+  pointer-events: none;
+}
+
+#fireworks {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gift-page {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: clamp(16px, 4vw, 48px);
+  display: grid;
+  place-items: center;
+}
+
+.gift-card {
+  width: min(720px, 100%);
+  padding: clamp(18px, 4vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(13, 16, 23, 0.68);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.kicker {
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 22px;
+  font-size: 3.8rem;
+  line-height: 1;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+}
+
+.image-frame {
+  width: 100%;
+  padding: clamp(10px, 2.6vw, 18px);
+  border: 1px solid rgba(255, 250, 243, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 250, 243, 0.1);
+}
+
+.image-frame img {
+  display: block;
+  width: 100%;
+  max-height: min(62vh, 620px);
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.back-link {
+  min-height: 46px;
+  margin-top: 18px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  background: rgba(255, 250, 243, 0.12);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+@media (max-width: 520px) {
+  h1 {
+    font-size: 2.35rem;
+  }
+
+  .gift-card {
+    text-align: left;
+  }
+
+  .back-link {
+    width: 100%;
+  }
+}

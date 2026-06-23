@@ -20,4 +20,4 @@ http://localhost:4173
 PORT=8080 npm start
 ```
 
-Yakuniy sovg'a linki `script.js` boshidagi `FINAL_GIFT_URL` qiymatida turadi.
+Yakuniy sovg'a `gift.html` sahifasida ochiladi. Bu sahifa `img.png` rasmini ko'rsatadi va orqa fonda salyut animatsiyasini ishga tushiradi.

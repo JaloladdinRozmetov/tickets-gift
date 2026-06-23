@@ -1,4 +1,5 @@
-const FINAL_GIFT_URL = "https://showgo.uz/ru/profile?orderNumber=11178220136780&tab=orders";
+const FINAL_GIFT_IMAGE = "img.png";
+const FINAL_GIFT_PAGE = "gift.html";
 
 const screens = [
   "start",
@@ -269,12 +270,12 @@ function renderPromises() {
 function renderFinal() {
   baseScreen({
     title: "Sovg'a tayyor",
-    text: "Bu kichik sayohat tugadi. Endi asosiy sovg'ani ochish vaqti.",
+    text: "Bu kichik sayohat tugadi. Endi asosiy sovg'a rasmini ochish vaqti.",
     stage: `
-      <div class="gift-visual">
-        <div class="gift-box"><div class="bow"></div></div>
+      <div class="gift-preview">
+        <img src="${FINAL_GIFT_IMAGE}" alt="Sovg'a rasmi" />
       </div>
-      <p class="note">Keyingi sahifa haqiqiy sovg'a manziliga olib boradi.</p>
+      <p class="note">Rasmni to'liq ko'rish uchun sovg'ani oching.</p>
     `,
     actions: `
       <button class="btn" id="openGift">Sovg'ani ochish</button>
@@ -283,7 +284,7 @@ function renderFinal() {
   });
 
   document.querySelector("#openGift").addEventListener("click", () => {
-    window.location.href = FINAL_GIFT_URL;
+    window.location.href = FINAL_GIFT_PAGE;
   });
 
   document.querySelector("#restart").addEventListener("click", () => {
