@@ -1,4 +1,3 @@
-const FINAL_GIFT_IMAGE = "img.png";
 const FINAL_GIFT_PAGE = "gift.html";
 
 const screens = [
@@ -6,6 +5,7 @@ const screens = [
   "sparks",
   "memory",
   "phrase",
+  "questions",
   "promises",
   "final",
 ];
@@ -16,6 +16,8 @@ const state = {
   memorySequence: [1, 3, 0, 2],
   memoryInput: [],
   phraseInput: [],
+  questionIndex: 0,
+  selectedAnswer: null,
   promises: new Set(),
 };
 
@@ -35,11 +37,29 @@ const promiseLabels = [
   "Ko'proq tinglayman, kamroq shoshilaman",
   "Har kuni kichik quvonch yarataman",
 ];
+const questions = [
+  {
+    text: "Bu kichik o'yin kim uchun tayyorlandi?",
+    options: ["Sen uchun", "Do'stlar uchun", "Tasodifiy mehmon uchun"],
+    answer: 0,
+  },
+  {
+    text: "Men senga ko'proq nimani sovg'a qilmoqchiman?",
+    options: ["Shoshilish", "E'tibor va vaqt", "Oddiy xabar"],
+    answer: 1,
+  },
+  {
+    text: "Oxirgi sahifada nima ochiladi?",
+    options: ["Oddiy matn", "Maxsus sovg'a rasmi", "Bo'sh sahifa"],
+    answer: 1,
+  },
+];
 
 const gamePanel = document.querySelector("#gamePanel");
 const progress = document.querySelector("#progress");
 
 function renderProgress() {
+  progress.style.setProperty("--steps", screens.length);
   progress.innerHTML = screens
     .map((_, index) => {
       const status = index < state.screen ? "is-done" : index === state.screen ? "is-active" : "";
@@ -65,6 +85,7 @@ function render() {
   if (name === "sparks") renderSparks();
   if (name === "memory") renderMemory();
   if (name === "phrase") renderPhrase();
+  if (name === "questions") renderQuestions();
   if (name === "promises") renderPromises();
   if (name === "final") renderFinal();
 }
@@ -234,6 +255,61 @@ function renderPhrase() {
   if (phraseNext) phraseNext.addEventListener("click", nextScreen);
 }
 
+function renderQuestions() {
+  const question = questions[state.questionIndex];
+  const isAnswered = state.selectedAnswer !== null;
+  const isCorrect = state.selectedAnswer === question.answer;
+  const options = question.options
+    .map((option, index) => {
+      const selectedClass = state.selectedAnswer === index ? "is-selected" : "";
+      const correctClass = isAnswered && index === question.answer ? "is-correct" : "";
+      const wrongClass = isAnswered && state.selectedAnswer === index && !isCorrect ? "is-wrong" : "";
+      return `<button class="quiz-option ${selectedClass} ${correctClass} ${wrongClass}" data-answer="${index}">${option}</button>`;
+    })
+    .join("");
+
+  baseScreen({
+    title: "Kichik savollar",
+    text: "Sovg'aga yaqinlashish uchun bir nechta savolga javob ber.",
+    stage: `
+      <div class="question-box">
+        <p class="question-count">Savol ${state.questionIndex + 1}/${questions.length}</p>
+        <h3>${question.text}</h3>
+        <div class="option-list">${options}</div>
+      </div>
+      <div class="counter">${state.questionIndex + 1}/${questions.length}</div>
+    `,
+    toast: isAnswered ? (isCorrect ? "To'g'ri javob." : "Yana bir bor urinib ko'r.") : "",
+    actions:
+      isAnswered && isCorrect
+        ? `<button class="btn" id="questionNext">${state.questionIndex === questions.length - 1 ? "Davom etish" : "Keyingi savol"}</button>`
+        : "",
+  });
+
+  document.querySelectorAll("[data-answer]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.selectedAnswer = Number(button.dataset.answer);
+      renderQuestions();
+    });
+  });
+
+  const questionNext = document.querySelector("#questionNext");
+  if (questionNext) {
+    questionNext.addEventListener("click", () => {
+      state.selectedAnswer = null;
+
+      if (state.questionIndex === questions.length - 1) {
+        state.questionIndex = 0;
+        nextScreen();
+        return;
+      }
+
+      state.questionIndex += 1;
+      renderQuestions();
+    });
+  }
+}
+
 function renderPromises() {
   const list = promiseLabels
     .map(
@@ -270,12 +346,12 @@ function renderPromises() {
 function renderFinal() {
   baseScreen({
     title: "Sovg'a tayyor",
-    text: "Bu kichik sayohat tugadi. Endi asosiy sovg'a rasmini ochish vaqti.",
+    text: "Bu kichik sayohat tugadi. Asosiy sovg'a faqat tugmani bosganingdan keyin ochiladi.",
     stage: `
-      <div class="gift-preview">
-        <img src="${FINAL_GIFT_IMAGE}" alt="Sovg'a rasmi" />
+      <div class="gift-visual">
+        <div class="gift-box"><div class="bow"></div></div>
       </div>
-      <p class="note">Rasmni to'liq ko'rish uchun sovg'ani oching.</p>
+      <p class="note">Hozircha sir. Sovg'ani ochish tugmasi bosilganda rasm salyutlar bilan chiqadi.</p>
     `,
     actions: `
       <button class="btn" id="openGift">Sovg'ani ochish</button>
@@ -292,6 +368,8 @@ function renderFinal() {
     state.foundSparks.clear();
     state.memoryInput = [];
     state.phraseInput = [];
+    state.questionIndex = 0;
+    state.selectedAnswer = null;
     state.promises.clear();
     render();
   });
