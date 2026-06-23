@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sen uchun sovg'a</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-live="polite">
+      <div class="ambient ambient-one"></div>
+      <div class="ambient ambient-two"></div>
+
+      <section class="game-shell">
+        <header class="topbar">
+          <div>
+            <p class="kicker">Maxsus sovg'a</p>
+            <h1>Sen uchun kichik sayohat</h1>
+          </div>
+          <div class="progress" id="progress" aria-label="O'yin bosqichlari"></div>
+        </header>
+
+        <section class="game-panel" id="gamePanel"></section>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
