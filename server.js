@@ -1,6 +1,6 @@
-const http = require("node:http");
-const fs = require("node:fs");
-const path = require("node:path");
+const http = require("http");
+const fs = require("fs");
+const path = require("path");
 
 const port = Number(process.env.PORT || 4173);
 const root = __dirname;
